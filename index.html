@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>formData</title>
+</head>
+<body>
+    <form id="myForm">
+
+        <strong>아이디</strong>
+        <input type="text" name="name" placeholder="아이디">
+        
+        <strong>성별</strong>
+        <input type="text" name="gender" placeholder="gender">
+        
+        <strong>전화번호</strong>
+        <input type="text" name="phone" placeholder="phone">
+    
+        <input type="submit" value="제출">
+    </form>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // FormData 객체 생성
+            var formData = new FormData(this);
+
+            // 현재 날짜 추가
+            var currentDate = new Date().toISOString().slice(0, 10); // YYYY-MM-DD 형식으로 현재 날짜 생성
+            formData.append('date', currentDate);
+
+            // FormData를 URLSearchParams로 변환
+            var params = new URLSearchParams(formData);
+
+
+            fetch('https://script.google.com/macros/s/AKfycbyAVeeHj-cd0ZLniHcZtNVXt3Y134JGmd556GuJYeX456A_FOdIFpWRmcNfq3NofTU-6w/exec', {
+                method: 'POST',
+                body: params
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                alert('데이터가 성공적으로 제출되었습니다!');
+                
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('데이터 제출에 실패했습니다.');
+            });
+        });
+
+
+
+
+
+
+
+        
+    </script>
+</body>
+</html>
